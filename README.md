@@ -8,7 +8,7 @@
 
 ## Getting started
 ```
-sls create --name Backend-handlerName --template-url https://github.com/IntellergyDevs/smartlicence-prod/tree/726974e8e6aa05f957d905f1be12471542d91d9a/Smarttemplate
+sls create --name Backend-handlerName --template-url https://github.com/IntellergyDevs/smartHandler
 cd Backend-handlerName 
 npm install
 ```
