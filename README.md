@@ -3,8 +3,8 @@
 
 ## Getting started
 ```
-sls create --name YOUR_PROJECT_NAME --template-url https://github.com/IntellergyDevs/smartHandler
-cd YOUR_PROJECT_NAME
+sls create --name Backend-feature --template-url https://github.com/IntellergyDevs/smartHandler
+cd Backend-feature
 npm install
 ```
 
