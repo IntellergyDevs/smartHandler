@@ -1,24 +1,61 @@
 service: Backend-Centers
 
 
-plugins:
-  - serverless-bundle
-  - serverless-pseudo-parameters
-
 provider:
   name: aws
-  runtime: nodejs20.x
-  memorySize: 256
+  runtime: nodejs18.x
+  memorySize: 1024
   stage: ${opt:stage, 'dev'}
-  
+  region: us-east-1
+  environment:
+    CENTERS_TABLE_NAME: ${self:custom.CentersTable.name}
+  lambdaHashingVersion: 20201221
+  iamRoleStatements: ${file(iam/centersTableIam.yml):CentersTableIam}
+
+resources:
+  Resources:
+    CentersTable: ${file(resources/centersTable.yml):CentersTable}
+
 functions:
-  hello:
-    handler: src/handlers/hello.handler
+  createCenter:
+    handler: src/handlers/createCenter.handler
+    events:
+      - http:
+          method: POST
+          path: /center
+          cors: true
+  getCenter:
+    handler: src/handlers/getCenter.handler
     events:
       - http:
           method: GET
-          path: /hello
+          path: /center/{id}
+          cors: true
+  updateCenter:
+    handler: src/handlers/updateCenter.handler
+    events:
+      - http:
+          method: PUT
+          path: /center/{id}
+          cors: true
+  deleteCenter:
+    handler: src/handlers/deleteCenter.handler
+    events:
+      - http:
+          method: DELETE
+          path: /center/{id}
+          cors: true
+  getAllCenters:
+    handler: src/handlers/getAllCenters.handler
+    events:
+      - http:
+          method: GET
+          path: /centers
+          cors: true
 
 custom:
+  CentersTable:
+    name: !Ref CentersTable
+    arn: !GetAtt CentersTable.Arn
   bundle:
   linting: false
